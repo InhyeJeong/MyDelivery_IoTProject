@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 app.use('/users', require('./api/users/index.js'));
 
 
-// body parser : �̵����
+// body parser : POST 내용이 담길 body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

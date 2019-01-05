@@ -4,8 +4,8 @@
 // index : get/view all
 exports.index = (req, res) => {
   console.log("catch");
-  return res.json({"msg":"hihi"}); 
-  //return res.json(users);
+  //  test예시 주석처리 return res.json({"msg":"hihi"}); 
+  return res.json(users);
 };
 
 // show : get/findById
@@ -44,24 +44,23 @@ exports.destroy = (req, res) => {
 
 // create : post
 exports.create = (req, res) => {
-  const name = req.body.name || '';
-  console.log("네임 : "+name);
+  const name = req.body.name || ''; // 없을시 빈문자열 추가
+  //console.log("네임 : "+name);
   if (!name.length) {
    return res.status(400).json({error: 'Incorrenct name'});
   }
-  // ����data ����� reduce()�Լ�
+  // data를 축적하는 reduce() 함수
    const id = users.reduce((maxId, user) => {
     return user.id > maxId ? user.id : maxId
-   }, 0) + 1;	// ���ο� ���̵� ����� ������ +1
+   }, 0) + 1;	// 새로운 유저 생성이니 뒤에 추가, +1
 
-  // �迭�� ���� �߰��ϱ�
+  
   const newUser = {
    id: id,
    name: name
   };
-  // ���� users �迭�� ���ο� ���� �߰�
-  users.push(newUser); // ������ ���ο� ���� ������ �߰���
-
-  // ����-> ��û�� ct���� ����. 201 Created�ڵ�
+   
+  users.push(newUser); // 새로운 유저 생성
+  // 201 Created : 성공 !
   return res.status(201).json(newUser);
 };

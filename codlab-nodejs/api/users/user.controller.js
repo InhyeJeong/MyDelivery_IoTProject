@@ -1,4 +1,4 @@
-﻿
+
 
 
 // index : get/view all
@@ -46,19 +46,18 @@ exports.create = (req, res) => {
   if (!name.length) {
    return res.status(400).json({error: 'Incorrenct name'});
   }
-  // ����data ����� reduce()�Լ�
+  // data를 축적함. reduce()함수
    const id = users.reduce((maxId, user) => {
     return user.id > maxId ? user.id : maxId
-   }, 0) + 1;	// ���ο� ���̵� ����� ������ +1
+   }, 0) + 1;	// 새로운 유저가 추가되었으니 뒤에 +1
 
-  // �迭�� ���� �߰��ϱ�
+  // 
   const newUser = {
    id: id,
    name: name
   };
-  // ���� users �迭�� ���ο� ���� �߰�
-  users.push(newUser); // ������ ���ο� ���� ������ �߰���
 
-  // ����-> ��û�� ct���� ����. 201 Created�ڵ�
+  users.push(newUser); // 새로운 유저 생성
+  // 201 Created : 성공 !
   return res.status(201).json(newUser);
 };
