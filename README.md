@@ -9,3 +9,11 @@
 ```dart
 NodeJs, java, python
 ```
+## **Sensor**
+```
+- Raspberry Pi
+- Arduino
+- USB Camera
+- Reed Switch
+- Servo Motor
+```
