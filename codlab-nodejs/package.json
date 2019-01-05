@@ -11,7 +11,8 @@
   "description": "",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "supertest": "^3.3.0"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
