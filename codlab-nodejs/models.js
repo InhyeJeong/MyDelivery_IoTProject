@@ -1,6 +1,7 @@
 //  모델
 //  import
 const Sequelize = require('sequelize');
+
 //  객체 생성(db name, 접속 계정명, pw)
 const sequelize = new Sequelize('node_api_codelab', 'root', null, {
     host : 'localhost',

@@ -1,8 +1,14 @@
 ﻿//  실제 로직이 들어간 컨트롤러
 
+//  import
+const models = require('../../models');
 
 // index : get/view all
 exports.index = (req, res) => {
+  //  전체 테이블 불러오기
+  models.User.findAll()
+      .then(users => res.json(users));
+
   console.log("catch");
   //  test예시 주석처리 return res.json({"msg":"hihi"}); 
   return res.json(users);
@@ -16,11 +22,18 @@ exports.show = (req, res) => {
   }
 
   let user = users.filter(user => user.id === id)[0] 
-  if (!user) {
-    return res.status(404).json({error: 'Unknown user'});
-  }
-  
-  return res.json(user);
+
+  models.User.findOne({
+    where: {//  where : id 컬럼 조건값 설정
+      id: id
+    }
+  }).then(user => {
+    if (!user) {//  없으면 404 응답
+      return res.status(404).json({error: 'No User'});
+    }
+    //  성공하면 json()로 응답
+    return res.json(user);
+  });
 };
 
 
@@ -38,7 +51,12 @@ exports.destroy = (req, res) => {
   }
 
   users.splice(userIdx, 1);
-  res.status(204).send();	// no content = 204
+ 
+  models.User.destroy({
+    where: {// id기준으로 삭제 
+      id: id
+    }
+  }).then(() => res.status(204).send());	// no content = 204
 };
 
 
@@ -49,6 +67,11 @@ exports.create = (req, res) => {
   if (!name.length) {
    return res.status(400).json({error: 'Incorrenct name'});
   }
+  //   테이블에 데이터를 추가하는 기능 : 매개변수로 넣은 data를 객체형식으로 넘겨줌.
+  models.User.create({
+    name: name  //  상수값
+  }).then((user) => res.status(201).json(user)) //   then함수->콜백함수의 user 파라미터로 테이블에 생선된row가나옴->이것을 요청한 ct에게 그대로 전달해주면됨
+  
   // data를 축적하는 reduce() 함수
    const id = users.reduce((maxId, user) => {
     return user.id > maxId ? user.id : maxId
@@ -64,3 +87,8 @@ exports.create = (req, res) => {
   // 201 Created : 성공 !
   return res.status(201).json(newUser);
 };
+
+//  update : PUT
+exports.update = (req, res) => {
+  res.send();
+}

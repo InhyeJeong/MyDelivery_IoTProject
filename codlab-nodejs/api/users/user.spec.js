@@ -27,7 +27,10 @@ describe('GET /users', () => {
 
        //   Supertest 시작 !!!!
        request(app) //  익스프레서 서버인 app을 슈퍼테스트로 테스트하겠다는 의미
-                .get('/users')  // get함수로 API요청보냄
+                .get('/users/1')  // get함수로 API요청보냄
+                .send({
+                  name: 'foo'
+                })
                 .expect(200)    // expect함수로 응답코드 설정
                 
                 //  end함수의매개변수를 받는데
