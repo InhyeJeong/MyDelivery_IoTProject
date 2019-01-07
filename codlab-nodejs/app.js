@@ -18,14 +18,3 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //  Supertest를 사용하려면 서버 역할을 하는 익스프레스 객체를 가져와함
 module.exports = app;
 
-
-// connect success
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!');
-  //  모델 정의하는 sync()메서드
-  // 함수 실행->sequelize객체에 연결된db에 정의한 model을 테이블로 생성하는기능
-  require('./models').sequelize.sync({force: true}) // 배포시에는 반드시 false로 바꾸기 !!!
-      .then(() => {
-        console.log('Databases sync');
-      });
-});

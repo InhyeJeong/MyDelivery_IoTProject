@@ -1,9 +1,12 @@
 //  모델
 //  import
 const Sequelize = require('sequelize');
-
+const config = require('./config/environment.js');
 //  객체 생성(db name, 접속 계정명, pw)
-const sequelize = new Sequelize('node_api_codelab', 'root', null, {
+const sequelize = new Sequelize(
+    config.mysql.database,
+    config.mysql.username,
+    config.mysql.password, {
     host : 'localhost',
     dialect : 'mysql',
     pool: {
@@ -13,12 +16,17 @@ const sequelize = new Sequelize('node_api_codelab', 'root', null, {
         idle: 10000
         },
         
-        // SQLite only
-        //storage: 'path/to/database.sqlite',
-        
         // http://docs.sequelizejs.com...
-        operatorsAliases: false
+        operatorsAliases: false      
 });
+
+//  test에 db연동하기
+// const sequelize = new Sequelize(
+//     config.mysql.database,
+//     config.mysql.username,
+//     config.mysql.password
+//  )
+
 
 //  모델 생성( db에 만들어질 테이블 이름, 테이블 세부사항을 객체형식으로 정의)
 const User = sequelize.define('user', {

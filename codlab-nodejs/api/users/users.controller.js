@@ -45,12 +45,12 @@ exports.destroy = (req, res) => {
     return res.status(400).json({error: 'Incorrect id'});
   }
 
-  const userIdx = users.findIndex(user => user.id === id);
-  if (userIdx === -1) {
-    return res.status(404).json({error: 'Unknown user'});
-  }
+  // const userIdx = users.findIndex(user => user.id === id);
+  // if (userIdx === -1) {
+  //   return res.status(404).json({error: 'Unknown user'});
+  // }
 
-  users.splice(userIdx, 1);
+  // users.splice(userIdx, 1);
  
   models.User.destroy({
     where: {// id기준으로 삭제 
@@ -90,5 +90,6 @@ exports.create = (req, res) => {
 
 //  update : PUT
 exports.update = (req, res) => {
-  res.send();
+  //  요청이 들어오면 send() 함수를 이용해 200 상태코드만 응답
+  res.send(); 
 }

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha api/users/user.spec.js",
-    "start": "node app.js"
+    "test": "set NODE_ENV=test ./node_modules/.bin/mocha api/**/*.spec.js",
+    "start": "node bin/www.js"
   },
   "author": "",
   "license": "ISC",

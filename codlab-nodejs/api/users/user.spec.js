@@ -10,11 +10,32 @@
 const should = require('should');
 const request = require('supertest');   //  상수에 슈퍼테스트 모듈 할당
 const app = require('../../app');   //  supertest사용을 위해 app을 외부로 노출시켜서 사용함
+const syncDatabase = require('../../bin/sync-database');
+const models = require('../../models');
+
 
 //  첫번째 파라미터 : test suite의 설명을 서술형 문자열로 입력
 //  두번째 파라미터 : 함수입력, 비동기 로직의 콜백 형식으로 (이 안에 it함수로 실제 테스트 코드 작성) 
-describe('GET /users', () => {  
-    //  it()함수를 이요애 실제 test code 작성
+describe('GET /users', () => {
+  before('sync database', (done) => {
+    // sync data base ...
+    // sync({force: true}); //db초기화
+    syncDatabase().then(() =>
+      done());
+    
+  });// before
+
+  const users = [
+    {name: 'alice'},
+    {name: 'bek'},
+    {name: 'chris'}
+  ];
+  //   db에 users테이블에 있는 유저를 추가하는 역할
+  before('insert 3 users into database', (done) => {
+    // bulkCreate()함수 여러개 data를 배열로 받아 여러개 로우 생성하는 함수
+    models.User.bulkCreate(users).then(() => done());
+  });
+    //  it()함수를 이용해 실제 test code 작성
     it('should return 200 status code', (done) => {
       //    console.log('test 1');
 
@@ -46,6 +67,7 @@ describe('GET /users', () => {
        });
     });
 
+
        //   바디 점검하는 code
        it('should return array', (done) => {
         request(app)
@@ -66,7 +88,10 @@ describe('GET /users', () => {
              done();
            });
         });
-
+        //  after : db초기화
+        after('clear up database', (done) => {
+          syncDatabase().then(() => done());
+        });
 
         
   });
