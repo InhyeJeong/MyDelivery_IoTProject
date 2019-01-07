@@ -25,15 +25,30 @@ router.put('/:id', controller.update);
 let users = [
   {
     id: 1,
-    name: 'alice'
+    receiverName: 'alice',
+    receiverAddress : 'Seoul',
+    locationCode : 1,
+    receiverPhone : '010-1234-5678',
+    senderPhone : '010-7777-7777',
+    companyKey : 1
   },
   {
     id: 2,
-    name: 'bek'
+    receiverName: 'bek',
+    receiverAddress : 'Busan',
+    locationCode : 2,
+    receiverPhone : '010-2341-5678',
+    senderPhone : '010-7777-7777',
+    companyKey : 2
   },
   {
     id: 3,
-    name: 'chris'
+    receiverName: 'chris',
+    receiverAddress : 'Daegu',
+    locationCode : 3,
+    receiverPhone : '010-3124-5678',
+    senderPhone : '010-7777-7777',
+    companyKey : 3
   }
 ]
 

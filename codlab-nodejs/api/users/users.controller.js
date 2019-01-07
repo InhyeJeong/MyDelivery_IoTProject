@@ -3,6 +3,10 @@
 //  import
 const models = require('../../models');
 
+
+
+
+
 // index : get/view all
 exports.index = (req, res) => {
   //  전체 테이블 불러오기
@@ -13,6 +17,11 @@ exports.index = (req, res) => {
   //  test예시 주석처리 return res.json({"msg":"hihi"}); 
   return res.json(users);
 };
+
+
+
+
+
 
 // show : get/findById
 exports.show = (req, res) => {
@@ -38,6 +47,8 @@ exports.show = (req, res) => {
 
 
 
+
+
 // destroy : delete
 exports.destroy = (req, res) => {
   const id = parseInt(req.params.id, 10);
@@ -60,7 +71,12 @@ exports.destroy = (req, res) => {
 };
 
 
+
+
+
+
 // create : post
+//   접수직원이 발신인, 수신인 정보 기입하여 배달접수
 exports.create = (req, res) => {
   const name = req.body.name || ''; // 없을시 빈문자열 추가
   //console.log("네임 : "+name);
@@ -69,7 +85,20 @@ exports.create = (req, res) => {
   }
   //   테이블에 데이터를 추가하는 기능 : 매개변수로 넣은 data를 객체형식으로 넘겨줌.
   models.User.create({
-    name: name  //  상수값
+        receiverName: receiverName,
+        receiverAddress : receiverAddress,
+        locationCode : locationCode,
+        receiverPhone : receiverPhone,
+        receiverQR : receiverQR,
+        senderPhone : senderPhone,
+        senderQR : senderQR,
+        regTime : regTime,
+        senderOpenTime : senderOpenTime,
+        senderCloseTime: senderCloseTime,
+        receiverOpenTime : receiverOpenTime,
+        receiverCloseTime :receiverCloseTime,
+        state : state,
+        companyKey : companyKey
   }).then((user) => res.status(201).json(user)) //   then함수->콜백함수의 user 파라미터로 테이블에 생선된row가나옴->이것을 요청한 ct에게 그대로 전달해주면됨
   
   // data를 축적하는 reduce() 함수
@@ -79,14 +108,31 @@ exports.create = (req, res) => {
 
   
   const newUser = {
-   id: id,
-   name: name
+      id: id,
+      receiverName: receiverName,
+      receiverAddress : receiverAddress,
+      locationCode : locationCode,
+      receiverPhone : receiverPhone,
+      receiverQR : receiverQR,
+      senderPhone : senderPhone,
+      senderQR : senderQR,
+      regTime : regTime,
+      senderOpenTime : senderOpenTime,
+      senderCloseTime: senderCloseTime,
+      receiverOpenTime : receiverOpenTime,
+      receiverCloseTime :receiverCloseTime,
+      state : state,
+      companyKey : companyKey
   };
    
   users.push(newUser); // 새로운 유저 생성
   // 201 Created : 성공 !
   return res.status(201).json(newUser);
 };
+
+
+
+
 
 //  update : PUT
 exports.update = (req, res) => {

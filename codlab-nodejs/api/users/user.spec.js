@@ -26,9 +26,30 @@ describe('GET /users', () => {
   });// before
 
   const users = [
-    {name: 'alice'},
-    {name: 'bek'},
-    {name: 'chris'}
+    {
+      receiverName: 'alice',
+      receiverAddress : 'Seoul',
+      locationCode : 1,
+      receiverPhone : '010-1234-5678',
+      senderPhone : '010-1777-7777',
+      companyKey : 1
+    },
+    {
+      receiverName: 'bek',
+      receiverAddress : 'Busan',
+      locationCode : 2,
+      receiverPhone : '010-2341-5678',
+      senderPhone : '010-2777-7777',
+      companyKey : 2
+    },
+    {
+      receiverName: 'chris',
+      receiverAddress : 'Daegu',
+      locationCode : 3,
+      receiverPhone : '010-3124-5678',
+      senderPhone : '010-3777-7777',
+      companyKey : 3
+    }
   ];
   //   db에 users테이블에 있는 유저를 추가하는 역할
   before('insert 3 users into database', (done) => {
@@ -40,32 +61,7 @@ describe('GET /users', () => {
       //    console.log('test 1');
 
       //    검증 로직 시작
-        // assert module : 매개변수 두 값이 같으면 pass, 아니면 error를 던짐
-        // assert.equal(true, false);
 
-       //   should module : 서술식의 검증을 코드로 작성할 수 있게 해줌
-       //(true).should.be.equal(true);
-
-       //   Supertest 시작 !!!!
-       request(app) //  익스프레서 서버인 app을 슈퍼테스트로 테스트하겠다는 의미
-                .get('/users/1')  // get함수로 API요청보냄
-                .send({
-                  name: 'foo'
-                })
-                .expect(200)    // expect함수로 응답코드 설정
-                
-                //  end함수의매개변수를 받는데
-                //  요청 실패하면 err객체 활성화
-                //  성공하면 res.body를 통해 응답 바디에 접근
-                //  but 이 코드는 API가 상태코드 200을 리턴하는가만 check함
-                .end((err, res) => {    
-         if (err) throw err;
-
-        //   it함수의 두번째 매개변수인 콜백함수의 매개변수.
-        //   슈퍼테스트가 HTTP요청을 하는 비동기 로직->모카측에서 it함수가 종료되는 시점을 알기 위해 사용되는 함수
-         done();
-       });
-    });
 
 
        //   바디 점검하는 code
@@ -89,9 +85,10 @@ describe('GET /users', () => {
            });
         });
         //  after : db초기화
-        after('clear up database', (done) => {
-          syncDatabase().then(() => done());
-        });
+        // after('clear up database', (done) => {
+        //   syncDatabase().then(() => done());
+        // });
 
         
   });
+})
