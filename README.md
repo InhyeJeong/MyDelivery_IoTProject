@@ -4,11 +4,12 @@
 
 ## 기능별 소개
 
-### NodeJs를 활용하여 RestApi 생성하였습니다.
+### NodeJs를 활용하여 RestApi 서버 생성
+* 서버가 라즈베리파이, 스마트폰 어플과 통신
 
 ##  이 프로젝트의 **Tech Stack**
 ```dart
-NodeJs, java, python
+NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, curl, Sequelize
 ```
 ## **Sensor**
 ```
