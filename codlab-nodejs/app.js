@@ -37,6 +37,9 @@ module.exports = app;
 
 
 
+
+
+
 //------------------------------★컨트롤러★-----------------------------------------------
 //  import
 const models = require('./models');
@@ -44,12 +47,38 @@ const models = require('./models');
 //  senderQR 랜덤 생성 코드 필요
 //   1. 접수직원 / create : post ♥성공
 app.post('/users', (req, res)  => {
+
+//  랜덤 QR코드 생성
+  var randomQR = '';
+  
+
+for (var i = 0; i < 20; i++){
+    var rIndex = Math.floor(Math.random() * 3);
+    switch (rIndex) {
+    case 0:
+        // a-z
+        randomQR+=String( ( (Math.floor(Math.random() * 26))+ 97) );
+        //randomQR.append((char) ((int) (rnd.nextInt(26)) + 97));
+        break;
+    case 1:
+        // A-Z
+        randomQR+= String( ( (Math.floor(Math.random() * 26)) + 65) );
+        //randomQR.append((char) ((int) (rnd.nextInt(26)) + 65));
+        break;
+    case 2:
+        // 0-9
+        randomQR+=(Math.floor(Math.random() * 10));
+        //randomQR.append((rnd.nextInt(10)));
+        break;
+    };
+};
+
   const receiverName = req.body.receiverName || ''; // 없을시 빈문자열 추가
   const receiverAddress = req.body.receiverAddress || '';
   const receiverPhone = req.body.receiverPhone || '';
   const senderPhone = req.body.senderPhone ||'';
   const companyKey = req.body.companyKey || '';
-  const senderQR ='1234';
+  const senderQR =randomQR;
   const locationCode = req.body.locationCode || '';
 
   //  에러코드
@@ -169,8 +198,34 @@ app.put('/senderOpen', (req, res) => {
 //  5. 발신인 CLOSE / update : PUT ♥성공
 //  receiverQR 랜덤 생성 코드 필요
 app.put('/senderClose', (req, res) => {
+  //  랜덤 QR코드 생성
+  var randomQR = '';
+  
+
+for (var i = 0; i < 20; i++){
+    var rIndex = Math.floor(Math.random() * 3);
+    switch (rIndex) {
+    case 0:
+        // a-z
+        randomQR+=String( ( (Math.floor(Math.random() * 26))+ 97) );
+        //randomQR.append((char) ((int) (rnd.nextInt(26)) + 97));
+        break;
+    case 1:
+        // A-Z
+        randomQR+= String( ( (Math.floor(Math.random() * 26)) + 65) );
+        //randomQR.append((char) ((int) (rnd.nextInt(26)) + 65));
+        break;
+    case 2:
+        // 0-9
+        randomQR+=(Math.floor(Math.random() * 10));
+        //randomQR.append((rnd.nextInt(10)));
+        break;
+    };
+};
+
+
   const locationCode = req.body.locationCode || '';
-  const receiverQR = '5678';
+  const receiverQR = randomQR;
   const senderQR = req.body.senderQR || '';
  // const state = req.body.state || '';
   const newDate = new Date();
