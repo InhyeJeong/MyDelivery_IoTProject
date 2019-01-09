@@ -93,7 +93,7 @@ app.post('/users', (req, res)  => {
 
 
 
-//  2.택배보관 / index : get/view all ♥성공
+//  2.택배보관리스트 확인 / index : get/view all ♥성공
 app.get('/sender/:senderPhone', (req, res) => {
     //  전체 테이블 불러오기
 
@@ -111,7 +111,7 @@ app.get('/sender/:senderPhone', (req, res) => {
 
 
 
-//  3.택배수신 ♥성공
+//  3.택배수신리스트 확인 ♥성공
 app.get('/receiver/:receiverPhone', (req, res) => {
   const receiverPhone = req.params.receiverPhone ||'';
   //  전체 테이블 불러오기
@@ -128,7 +128,7 @@ models.User.findAll(
 
 
 // 4. 발신인 OPEN / update : PUT  ♥성공
-app.put('/receiverOpen', (req, res) => {
+app.put('/senderOpen', (req, res) => {
   const locationCode = req.body.locationCode || '';
   const senderQR = req.body.senderQR || '';
   const lockerNumber = req.body.lockerNumber || '';
@@ -168,10 +168,11 @@ app.put('/receiverOpen', (req, res) => {
 
 //  5. 발신인 CLOSE / update : PUT ♥성공
 //  receiverQR 랜덤 생성 코드 필요
-app.put('/receiverClose', (req, res) => {
+app.put('/senderClose', (req, res) => {
   const locationCode = req.body.locationCode || '';
   const receiverQR = '5678';
   const senderQR = req.body.senderQR || '';
+ // const state = req.body.state || '';
   const newDate = new Date();
   const now_time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
 
@@ -181,11 +182,24 @@ app.put('/receiverClose', (req, res) => {
   if (!receiverQR.length) {
     return res.status(400).json({error: 'Incorrect receiverQR'});
   }
+  if (!locationCode.length) {
+    return res.status(400).json({error: 'Incorrect locationCode'});
+  }
+  if (!senderQR.length) {
+    return res.status(400).json({error: 'Incorrect senderQR'});
+  }
+  // if (!state.length) {
+  //   return res.status(400).json({error: 'Incorrect state'});
+  // }
+  if (!senderCloseTime.length) {
+    return res.status(400).json({error: 'Incorrect senderCloseTime'});
+  }
 
   // User.update({ nom: req.body.nom }, { where: {id: user.id} });
   models.User.update({
     receiverQR : receiverQR,
-    senderCloseTime : senderCloseTime
+    senderCloseTime : senderCloseTime,
+    state : "locked"
     },
     
     //  senderQR기준으로 수정
@@ -196,28 +210,39 @@ app.put('/receiverClose', (req, res) => {
   
 });
 
-//  6. 수신인 OPEN / update : PUT
-app.put('/senderOpen', (req, res) => {
+//  6. 수신인 OPEN / update : PUT ♥성공
+app.put('/receiverOpen', (req, res) => {
 
   const receiverQR = req.body.receiverQR || '';
   const locationCode =  req.body.locationCode || '';
+  const lockerNumber = req.body.lockerNumber || '';
+
+  const newDate = new Date();
+  const now_time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
+
+  const receiverOpenTime = now_time;
 
   //  에러코드
-  if (!receiverQR) {
+  if (!receiverQR.length) {
     return res.status(400).json({error: 'Incorrect receiverQR'});
   }
-  if (!locationCode) {
+  if (!locationCode.length) {
     return res.status(400).json({error: 'Incorrect locationCode'});
   }
+  if (!lockerNumber.length) {
+    return res.status(400).json({error: 'Incorrect lockerNumber'});
+  }
+  if (!receiverOpenTime.length) {
+    return res.status(400).json({error: 'Incorrect receiverOpenTime'});
+  }
 
-  // User.update({ nom: req.body.nom }, { where: {id: user.id} });
   models.User.update({
     receiverOpenTime : receiverOpenTime,//현재시간
     state : "received"
     },
     
     //  receiverQR기준으로 수정
-    { where: {receiverQR : eceiverQR,
+    { where: {receiverQR : receiverQR,
     locationCode : locationCode} }
    
 ).then((user) => res.status(201).json(user))
@@ -226,11 +251,16 @@ app.put('/senderOpen', (req, res) => {
 
 
 
-//  7. 수신인 CLOSE / update : PUT
-app.put('/senderClose', (req, res) => {
+//  7. 수신인 CLOSE / update : PUT ♥성공
+app.put('/receiverClose', (req, res) => {
 
   const receiverQR = req.body.receiverQR || '';
   const locationCode =  req.body.locationCode || '';
+
+  const newDate = new Date();
+  const now_time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
+
+  const receiverCloseTime = now_time;
 
   //  에러코드
   if (!receiverQR) {
@@ -239,11 +269,14 @@ app.put('/senderClose', (req, res) => {
   if (!locationCode) {
     return res.status(400).json({error: 'Incorrect locationCode'});
   }
+  if (!receiverCloseTime) {
+    return res.status(400).json({error: 'Incorrect receiverCloseTime'});
+  }
 
   // User.update({ nom: req.body.nom }, { where: {id: user.id} });
   models.User.update({
     receiverCloseTime : receiverCloseTime,//현재시간
-    state : "locked"
+    state : "locked, delivery finish !"
     },
     
     //  receiverQR기준으로 수정
