@@ -23,21 +23,21 @@ const sequelize = new Sequelize(
 
 //  모델 생성( db에 만들어질 테이블 이름, 테이블 세부사항을 객체형식으로 정의)
 const User = sequelize.define('delivery_test', {
-    receiverName: Sequelize.STRING  //  name값이 문자열임을 정의 (id는 기본으로 만들어줌)
-    // receiverAddress : Sequelize.STRING,
-    // locationCode : Sequelize.STRING,
-    // receiverPhone : Sequelize.STRING,
-    // receiverQR : Sequelize.STRING,
-    // senderPhone : Sequelize.STRING,
-    // senderQR : Sequelize.STRING,
-    // regTime : Sequelize.DATE,
-    // senderOpenTime : Sequelize.DATE,
-    // senderCloseTime : Sequelize.DATE,
-    // receiverOpenTime : Sequelize.DATE,
-    // receiverCloseTime : Sequelize.DATE,
-    // state : Sequelize.STRING,
-    // companyKey : Sequelize.STRING,
-    // lockerNumber : Sequelize.INTEGER
+    receiverName: Sequelize.STRING,  //  name값이 문자열임을 정의 (id는 기본으로 만들어줌)
+    receiverAddress : Sequelize.STRING,
+    locationCode : Sequelize.STRING,
+    receiverPhone : Sequelize.STRING,
+    receiverQR : Sequelize.STRING,
+    senderPhone : Sequelize.STRING,
+    senderName : Sequelize.STRING,
+    senderQR : Sequelize.STRING,
+    senderOpenTime : Sequelize.DATE,
+    senderCloseTime : Sequelize.DATE,
+    receiverOpenTime : Sequelize.DATE,
+    receiverCloseTime : Sequelize.DATE,
+    state : Sequelize.STRING,
+    companyKey : Sequelize.STRING,
+    lockerNumber : Sequelize.INTEGER
   });
 
 //  모듈로 만들기(외부에서 사용하기 위해서)
