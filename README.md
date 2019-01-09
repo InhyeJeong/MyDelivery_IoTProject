@@ -4,14 +4,14 @@
 
 ##  이 프로젝트의 **Tech Stack**
 ```dart
-NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, curl, Sequelize
+NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, curl, Sequelize, date-utils
 ```
 
 ## **Sensor**
 ```
 - Raspberry Pi
 - Arduino
-- USB Camera
+- Pi Cam
 - Reed Switch
 - Servo Motor
 ```
