@@ -164,6 +164,7 @@ app.put('/senderOpen', (req, res) => {
   const senderQR = req.body.senderQR || '';
   const lockerNumber = req.body.lockerNumber || '';
 
+  //  timezone 수정
   var loadDt = new Date();
   const newDate = new Date(Date.parse(loadDt) + 1000 * 60 * 60 * 9);
   const now_time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
