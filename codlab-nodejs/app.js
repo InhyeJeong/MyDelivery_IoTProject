@@ -22,7 +22,7 @@ const syncDatabase = require('./bin/sync-database');
 app.listen(port, () => {
   console.log('---------------Example app listening on port 3000');
 
-  require('./models').sequelize.sync({force: true})  // 개발시에는 true(새로갱신함) // 배포시에는 false
+  require('./models').sequelize.sync({force: false})  // 개발시에는 true(새로갱신함) // 배포시에는 false
   .then(() => {
     console.log('---------------Database sync');
   });
@@ -113,7 +113,7 @@ for (var i = 0; i < 20; i++){
         senderCloseTime: null,
         receiverOpenTime : null,
         receiverCloseTime : null,
-        state : "registration",
+        state : "0", // registration
         companyKey : companyKey,
         lockerNumber : -1
   }).then((user) => res.status(201).json(user)) //   then함수->콜백함수의 user 파라미터로 테이블에 생선된row가나옴->이것을 요청한 ct에게 그대로 전달해주면됨
@@ -130,9 +130,10 @@ app.get('/sender/:senderPhone', (req, res) => {
 
   //  특정 컬럼 불러올때는 attributes(select)사용하면 됨!
   models.User.findAll(
-   {attributes: ['receiverName', 'receiverAddress','receiverPhone','senderQR']},
-    //  phoneNumber 기준으로 수정
-    {where: {senderPhone: senderPhone}})
+     //  phoneNumber 기준으로 수정
+    {where: {senderPhone: senderPhone}, attributes: ['receiverName', 'receiverAddress','receiverPhone','senderQR','state' ,'senderOpenTime','senderCloseTime','receiverOpenTime', 'receiverCloseTime','createdAt']}
+   
+    )
   .then(user => res.json(user));
     
   });
@@ -145,10 +146,11 @@ app.get('/receiver/:receiverPhone', (req, res) => {
   const receiverPhone = req.params.receiverPhone ||'';
   //  전체 테이블 불러오기
 models.User.findAll(
-  {attributes: ['senderName', 'senderPhone','state','senderCloseTime','receiverCloseTime', 'receiverQR']},
+  {//  receiverNumber 기준으로 수정
+    where: {receiverPhone: receiverPhone},
+    attributes: ['senderName', 'senderPhone','state','senderCloseTime','receiverCloseTime', 'receiverQR']
 
-  //  receiverNumber 기준으로 수정
-  {where: {receiverPhone: receiverPhone}})
+  })
 .then(user => res.json(user));
   
 });
@@ -162,7 +164,8 @@ app.put('/senderOpen', (req, res) => {
   const senderQR = req.body.senderQR || '';
   const lockerNumber = req.body.lockerNumber || '';
 
-  const newDate = new Date();
+  var loadDt = new Date();
+  const newDate = new Date(Date.parse(loadDt) + 1000 * 60 * 60 * 9);
   const now_time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
 
   const senderOpenTime = now_time;
@@ -183,7 +186,8 @@ app.put('/senderOpen', (req, res) => {
   // User.update({ nom: req.body.nom }, { where: {id: user.id} });
   models.User.update({
     lockerNumber : lockerNumber,
-    senderOpenTime : senderOpenTime},
+    senderOpenTime : senderOpenTime,
+  },
 
     //  senderQR기준으로 수정
     { where: {senderQR : senderQR,
@@ -228,7 +232,8 @@ for (var i = 0; i < 20; i++){
   const receiverQR = randomQR;
   const senderQR = req.body.senderQR || '';
  // const state = req.body.state || '';
-  const newDate = new Date();
+  var loadDt = new Date();
+  const newDate = new Date(Date.parse(loadDt) + 1000 * 60 * 60 * 9);
   const now_time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
 
   const senderCloseTime = now_time;
@@ -254,7 +259,8 @@ for (var i = 0; i < 20; i++){
   models.User.update({
     receiverQR : receiverQR,
     senderCloseTime : senderCloseTime,
-    state : "locked"
+    state : "1",  //  locked
+    senderQR : "" //  발신인이 CLOSE했을 때, 발신인 QR코드 없앰
     },
     
     //  senderQR기준으로 수정
@@ -272,7 +278,8 @@ app.put('/receiverOpen', (req, res) => {
   const locationCode =  req.body.locationCode || '';
   const lockerNumber = req.body.lockerNumber || '';
 
-  const newDate = new Date();
+  var loadDt = new Date();
+  const newDate = new Date(Date.parse(loadDt) + 1000 * 60 * 60 * 9);
   const now_time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
 
   const receiverOpenTime = now_time;
@@ -292,8 +299,7 @@ app.put('/receiverOpen', (req, res) => {
   }
 
   models.User.update({
-    receiverOpenTime : receiverOpenTime,//현재시간
-    state : "received"
+    receiverOpenTime : receiverOpenTime//현재시간
     },
     
     //  receiverQR기준으로 수정
@@ -312,7 +318,8 @@ app.put('/receiverClose', (req, res) => {
   const receiverQR = req.body.receiverQR || '';
   const locationCode =  req.body.locationCode || '';
 
-  const newDate = new Date();
+  var loadDt = new Date();
+  const newDate = new Date(Date.parse(loadDt) + 1000 * 60 * 60 * 9);
   const now_time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
 
   const receiverCloseTime = now_time;
@@ -331,7 +338,8 @@ app.put('/receiverClose', (req, res) => {
   // User.update({ nom: req.body.nom }, { where: {id: user.id} });
   models.User.update({
     receiverCloseTime : receiverCloseTime,//현재시간
-    state : "locked, delivery finish !"
+    state : "2",  //  received
+    receverQR : ""  //  수신인이 CLOSE했을때 수신인 QR코드 없앰
     },
     
     //  receiverQR기준으로 수정
