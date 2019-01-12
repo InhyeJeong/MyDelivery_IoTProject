@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/iv_sender_qr"
-        android:layout_width="109dp"
-        android:layout_height="103dp"
+        android:layout_width="148dp"
+        android:layout_height="94dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -26,39 +26,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="148dp" />
+        app:layout_constraintGuide_begin="165dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="28dp" />
+        app:layout_constraintGuide_begin="39dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="57dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="86dp" />
+        app:layout_constraintGuide_begin="75dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="119dp" />
+        app:layout_constraintGuide_begin="111dp" />
 
     <TextView
         android:id="@+id/tv_receiver_name"
-        android:layout_width="219dp"
+        android:layout_width="202dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -72,7 +65,7 @@
 
     <TextView
         android:id="@+id/tv_receiver_address"
-        android:layout_width="219dp"
+        android:layout_width="202dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -86,21 +79,21 @@
 
     <TextView
         android:id="@+id/tv_receiver_phone"
-        android:layout_width="219dp"
+        android:layout_width="202dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/guideline10"
+        app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
     <TextView
         android:id="@+id/tv_s_state"
-        android:layout_width="116dp"
+        android:layout_width="148dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
@@ -124,17 +117,4 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="-68dp" />
 
-    <TextView
-        android:id="@+id/tv_d_state"
-        android:layout_width="239dp"
-        android:layout_height="92dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:textAlignment="center"
-        android:textSize="50sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 </android.support.constraint.ConstraintLayout>

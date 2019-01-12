@@ -1,44 +1,120 @@
 package com.example.test.mydelivery.Model;
 
 
+import android.support.annotation.NonNull;
 
 /**
  * Created by inhye on 2018-12-13.
  */
 
 
-public class receiver_listviewitem {
-    String title;
-    String date;
-    int img_id; //  이미지 얻어오기
+public class receiver_listviewitem implements Comparable<receiver_listviewitem> {
+    String senderName;
+    String senderPhone;
 
-    public receiver_listviewitem(String title, String date, int img_id) {
-        this.title = title;
-        this.date = date;
-        this.img_id = img_id;
+    String receiver_qr; //  이미지 얻어오기
+    String state;
+
+    String SenderOpenTime;
+    String SenderCloseTime;
+    String ReceiverOpenTime;
+    String ReceiverCloseTime;
+    String CreatedAt;
+
+    public receiver_listviewitem(){}
+
+    public receiver_listviewitem(String senderName, String senderPhone, String receiver_qr, String state, String senderOpenTime, String senderCloseTime, String receiverOpenTime, String receiverCloseTime, String createdAt) {
+        this.senderName = senderName;
+        this.senderPhone = senderPhone;
+        this.receiver_qr = receiver_qr;
+        this.state = state;
+        SenderOpenTime = senderOpenTime;
+        SenderCloseTime = senderCloseTime;
+        ReceiverOpenTime = receiverOpenTime;
+        ReceiverCloseTime = receiverCloseTime;
+        CreatedAt = createdAt;
     }
 
-    public String getTitle() {
-        return title;
+    // 우선순위 큐를 위한 state끼리 비교 메서드
+    @Override
+    public int compareTo(@NonNull receiver_listviewitem target) {
+        if(this.state.equals(target.getState())){
+            return this.CreatedAt.compareTo(target.getCreatedAt());
+        }else {
+            return this.state.compareTo(target.getState());
+        }
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    //  getter and setter
+    public String getSenderName() {
+        return senderName;
     }
 
-    public String getDate() {
-        return date;
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public String getSenderPhone() {
+        return senderPhone;
     }
 
-    public int getImg_id() {
-        return img_id;
+    public void setSenderPhone(String senderPhone) {
+        this.senderPhone = senderPhone;
     }
 
-    public void setImg_id(int img_id) {
-        this.img_id = img_id;
+    public String getReceiver_qr() {
+        return receiver_qr;
+    }
+
+    public void setReceiver_qr(String receiver_qr) {
+        this.receiver_qr = receiver_qr;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getSenderOpenTime() {
+        return SenderOpenTime;
+    }
+
+    public void setSenderOpenTime(String senderOpenTime) {
+        SenderOpenTime = senderOpenTime;
+    }
+
+    public String getSenderCloseTime() {
+        return SenderCloseTime;
+    }
+
+    public void setSenderCloseTime(String senderCloseTime) {
+        SenderCloseTime = senderCloseTime;
+    }
+
+    public String getReceiverOpenTime() {
+        return ReceiverOpenTime;
+    }
+
+    public void setReceiverOpenTime(String receiverOpenTime) {
+        ReceiverOpenTime = receiverOpenTime;
+    }
+
+    public String getReceiverCloseTime() {
+        return ReceiverCloseTime;
+    }
+
+    public void setReceiverCloseTime(String receiverCloseTime) {
+        ReceiverCloseTime = receiverCloseTime;
+    }
+
+    public String getCreatedAt() {
+        return CreatedAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        CreatedAt = createdAt;
     }
 }

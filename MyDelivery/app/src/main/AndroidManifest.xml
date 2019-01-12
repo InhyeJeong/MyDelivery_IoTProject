@@ -20,9 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SenderQRcodeActivity" />
-        <activity android:name=".ReceiverQRcodeActivity" />
-        <activity android:name=".QrcodeInfoActivity"></activity>
+        <activity android:name=".SecondDepth.SenderActivity" />
+        <activity android:name=".SecondDepth.ReceiverActivity" />
+        <activity android:name=".ThirdDepth.QrcodeInfoActivity"></activity>
     </application>
 
 </manifest>

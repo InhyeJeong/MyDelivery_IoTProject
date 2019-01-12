@@ -1,4 +1,4 @@
-package com.example.test.mydelivery;
+package com.example.test.mydelivery.ThirdDepth;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.test.mydelivery.R;
 
 public class QrcodeInfoActivity extends AppCompatActivity {
     //  선언
@@ -33,10 +35,22 @@ public class QrcodeInfoActivity extends AppCompatActivity {
         tv_s_close.setText(intent.getStringExtra("SenderCloseTime"));
         tv_r_open.setText(intent.getStringExtra("ReceiverOpenTime"));
         tv_r_close.setText(intent.getStringExtra("ReceiverCloseTime"));
-        //  QR코드 사진 data 받아오기(byte -> bitmap)
-        byte[] bytes = intent.getByteArrayExtra("SenderQRcode");
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
-        iv_qrcode_plus.setImageBitmap(bitmap);
+        if(intent.getStringExtra("whichImage").equals("bitmap")){
+            //  QR코드 사진 data 받아오기(byte -> bitmap)
+            byte[] bytes = intent.getByteArrayExtra("QRcode");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            iv_qrcode_plus.setImageBitmap(bitmap);
+        }else if(intent.getStringExtra("whichImage").equals("0")){
+            iv_qrcode_plus.setImageResource(R.drawable.registered);
+        }else if(intent.getStringExtra("whichImage").equals("1")){
+            iv_qrcode_plus.setImageResource(R.drawable.locked);
+        }else if(intent.getStringExtra("whichImage").equals("2")){
+            iv_qrcode_plus.setImageResource(R.drawable.received);
+        }
+
+
+
+
     }
 }

@@ -49,7 +49,7 @@ const models = require('./models');
 app.post('/users', (req, res)  => {
 
 //  랜덤 QR코드 생성
-  var randomQR = '';
+  var randomQR = '0';// senderQR코드는 0으로시작
   
 
 for (var i = 0; i < 20; i++){
@@ -74,6 +74,7 @@ for (var i = 0; i < 20; i++){
 };
 
   const receiverName = req.body.receiverName || ''; // 없을시 빈문자열 추가
+  const senderName = req.body.senderName || '';
   const receiverAddress = req.body.receiverAddress || '';
   const receiverPhone = req.body.receiverPhone || '';
   const senderPhone = req.body.senderPhone ||'';
@@ -83,8 +84,11 @@ for (var i = 0; i < 20; i++){
 
   //  에러코드
   if (!receiverName.length) {
-   return res.status(400).json({error: 'Incorrenct name'});
+   return res.status(400).json({error: 'Incorrenct receiver name'});
   }
+  if (!senderName.length) {
+    return res.status(400).json({error: 'Incorrenct sender name'});
+   }
   if (!receiverAddress.length) {
    return res.status(400).json({error: 'Incorrenct Address'});
   }
@@ -103,6 +107,7 @@ for (var i = 0; i < 20; i++){
   //   테이블에 데이터를 추가하는 기능 : 매개변수로 넣은 data를 객체형식으로 넘겨줌.
   models.User.create({
         receiverName: receiverName,
+        senderName : senderName,
         receiverAddress : receiverAddress,
         locationCode : locationCode,
         receiverPhone : receiverPhone,
@@ -148,7 +153,7 @@ app.get('/receiver/:receiverPhone', (req, res) => {
 models.User.findAll(
   {//  receiverNumber 기준으로 수정
     where: {receiverPhone: receiverPhone},
-    attributes: ['senderName', 'senderPhone','state','senderCloseTime','receiverCloseTime', 'receiverQR']
+    attributes: ['senderName', 'senderPhone','state','senderOpenTime','senderCloseTime','receiverOpenTime', 'receiverCloseTime', 'receiverQR','createdAt']
 
   })
 .then(user => res.json(user));
@@ -187,7 +192,7 @@ app.put('/senderOpen', (req, res) => {
   // User.update({ nom: req.body.nom }, { where: {id: user.id} });
   models.User.update({
     lockerNumber : lockerNumber,
-    senderOpenTime : senderOpenTime,
+    senderOpenTime : senderOpenTime
   },
 
     //  senderQR기준으로 수정
@@ -204,7 +209,7 @@ app.put('/senderOpen', (req, res) => {
 //  receiverQR 랜덤 생성 코드 필요
 app.put('/senderClose', (req, res) => {
   //  랜덤 QR코드 생성
-  var randomQR = '';
+  var randomQR = '1';// receiverQR코드는 1으로시작
   
 
 for (var i = 0; i < 20; i++){

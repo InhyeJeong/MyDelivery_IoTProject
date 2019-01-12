@@ -17,11 +17,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.test.mydelivery.Model.sender_listviewitem;
+import com.example.test.mydelivery.Model.receiver_listviewitem;
 import com.example.test.mydelivery.ThirdDepth.QrcodeInfoActivity;
 import com.example.test.mydelivery.R;
 import com.google.zxing.WriterException;
-
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -35,23 +34,22 @@ import static android.content.Context.WINDOW_SERVICE;
  * Created by inhye on 2018-12-13.
  */
 //  커스터마이징 리스트 뷰를 위하 어뎁터 만들기
-public class SenderListViewAdapter extends BaseAdapter {
+public class ReceiverListViewAdapter extends BaseAdapter {
     //  멤버변수
 
-    ArrayList<sender_listviewitem> list;
+    ArrayList<receiver_listviewitem> list;
 
     Context context;
     int item_layout;
     LayoutInflater layoutInflater;
 
-    TextView tv_receiver_name;
-    TextView tv_receiver_address;
-    TextView tv_receiver_phone;
+    TextView tv_sender_name;
+    TextView tv_sender_phone;
+    TextView tv_r_state;
 
-    TextView tv_s_state;
-    ImageView iv_sender_qr;
+    ImageView iv_receiver_qr;
     //TextView tv_d_state;
-    ConstraintLayout s_layout;
+    ConstraintLayout r_layout;
 
     //  QR코드 활용
     String TAG = "GenerateQRCode";
@@ -61,10 +59,10 @@ public class SenderListViewAdapter extends BaseAdapter {
     QRGEncoder qrgEncoder;
 
     //  생성자
-    public SenderListViewAdapter(
+    public ReceiverListViewAdapter(
             Context context,
             int item_layout,
-            ArrayList<sender_listviewitem> list) {
+            ArrayList<receiver_listviewitem> list) {
         this.list = list;
         this.context = context;
         this.item_layout = item_layout;
@@ -101,25 +99,24 @@ public class SenderListViewAdapter extends BaseAdapter {
         }
 
         //  뷰 찾기
-        final ImageView iv_thumb = (ImageView) view.findViewById(R.id.iv_sender_qr);
-        tv_receiver_name = (TextView)view.findViewById(R.id.tv_receiver_name);
-        tv_receiver_address=(TextView)view.findViewById(R.id.tv_receiver_address);
-        tv_receiver_phone = (TextView)view.findViewById(R.id.tv_receiver_phone);
-        tv_s_state = (TextView)view.findViewById(R.id.tv_s_state);
-        iv_sender_qr=(ImageView)view.findViewById(R.id.iv_sender_qr);
+        ImageView iv_thumb = (ImageView) view.findViewById(R.id.iv_receiver_qr);
+        tv_sender_name = (TextView)view.findViewById(R.id.tv_sender_name);
+        tv_sender_phone = (TextView)view.findViewById(R.id.tv_sender_phone);
+        tv_r_state = (TextView)view.findViewById(R.id.tv_r_state);
+        iv_receiver_qr=(ImageView)view.findViewById(R.id.iv_receiver_qr);
         //tv_d_state = (TextView)view.findViewById(R.id.tv_d_state);
-        s_layout = (ConstraintLayout)view.findViewById(R.id.s_layout); // 배달 상태에 따른 배경 색상 변경
+        r_layout = (ConstraintLayout)view.findViewById(R.id.r_layout); // 배달 상태에 따른 배경 색상 변경
 
         //  배달이 완료되면 배경색 회색 변경
         if(list.get(pos).getState().equals("0")){   // reg
-            s_layout.setBackgroundColor(Color.rgb(255,255,255));
+            r_layout.setBackgroundColor(Color.rgb(255,255,255));
             //tv_d_state.setText("");
         }else if(list.get(pos).getState().equals("1")){//   locked
-            s_layout.setBackgroundColor(Color.rgb(150,150,150));
+            r_layout.setBackgroundColor(Color.rgb(150,150,150));
             //tv_d_state.setText("배달 완료");
             //tv_d_state.setTextColor(Color.rgb(0,0,255));
         }else if(list.get(pos).getState().equals("2")){ //  received
-            s_layout.setBackgroundColor(Color.rgb(100,100,100));
+            r_layout.setBackgroundColor(Color.rgb(100,100,100));
             //tv_d_state.setText("수신 완료");
             //tv_d_state.setTextColor(Color.rgb(255,0,0));
         }
@@ -135,19 +132,19 @@ public class SenderListViewAdapter extends BaseAdapter {
         }
 
         // 뷰에 스트링 담아주기
-        tv_receiver_name.setText(list.get(pos).getReceiverName());
-        tv_receiver_address.setText(list.get(pos).getReceiverAddress());
-        tv_receiver_phone.setText(list.get(pos).getReceiverPhone());
-        tv_s_state.setText(state_show);
-        String sender_qr = list.get(pos).getSender_qr();
+        tv_sender_name.setText(list.get(pos).getSenderName());
+        tv_sender_phone.setText(list.get(pos).getSenderPhone());
+        tv_r_state.setText(state_show);
+
+        String receiver_qr = list.get(pos).getReceiver_qr();
         Bitmap bitmap;
 
         // sender_qr (String -> bitmap 변환)
         if(list.get(pos).getState().equals("0")) {
-            bitmap = string_to_QRcode(sender_qr);
-            iv_thumb.setImageBitmap(bitmap);
+            iv_thumb.setImageResource(R.drawable.registered);
         } else if(list.get(pos).getState().equals("1")) {
-            iv_thumb.setImageResource(R.drawable.locked);
+            bitmap = string_to_QRcode(receiver_qr);
+            iv_thumb.setImageBitmap(bitmap);
         } else if(list.get(pos).getState().equals("2")) {
             iv_thumb.setImageResource(R.drawable.received);
         }
@@ -162,30 +159,29 @@ public class SenderListViewAdapter extends BaseAdapter {
                 intent.putExtra("SenderCloseTime", list.get(pos).getSenderCloseTime());
                 intent.putExtra("ReceiverOpenTime", list.get(pos).getReceiverOpenTime());
                 intent.putExtra("ReceiverCloseTime", list.get(pos).getReceiverCloseTime());
-
-                String QR_string = list.get(pos).getSender_qr();
+                String QR_string = list.get(pos).getReceiver_qr();
                 Bitmap bitmap;
 
                 if(list.get(pos).getState().equals("0")) { // 상태가 geristered인 경우는 qr코드 생성해서 넣어주기
+                    intent.putExtra("whichImage", "0");
+
+                }else if(list.get(pos).getState().equals("1")){
                     bitmap = string_to_QRcode(QR_string);
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] bytes = stream.toByteArray();
                     intent.putExtra("QRcode",bytes);
                     intent.putExtra("whichImage", "bitmap");
-                }else if(list.get(pos).getState().equals("1")){
-                    intent.putExtra("whichImage", "1");
                 }
                 else if(list.get(pos).getState().equals("2")){
                     intent.putExtra("whichImage", "2");
                 }
-
                 context.startActivity(intent);
             }
         });
-
         return view;
     }
+
     Bitmap string_to_QRcode(String string_QR){
         Bitmap bitmap_QR;
         WindowManager manager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
@@ -209,5 +205,4 @@ public class SenderListViewAdapter extends BaseAdapter {
         }
         return null;
     }
-
 }

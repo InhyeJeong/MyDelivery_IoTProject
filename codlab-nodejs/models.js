@@ -1,4 +1,5 @@
 //  모델
+
 //  import
 const Sequelize = require('sequelize');
 const config = require('./config/environment.js');

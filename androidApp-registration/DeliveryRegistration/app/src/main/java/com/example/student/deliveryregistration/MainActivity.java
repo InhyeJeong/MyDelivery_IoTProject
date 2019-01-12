@@ -5,41 +5,23 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.NameValuePair;
-import cz.msebera.android.httpclient.client.ClientProtocolException;
-import cz.msebera.android.httpclient.client.HttpClient;
-import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
-import cz.msebera.android.httpclient.client.methods.HttpGet;
-import cz.msebera.android.httpclient.client.methods.HttpPost;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-import cz.msebera.android.httpclient.message.BasicNameValuePair;
-
+//  택배 접수 어플
 public class MainActivity extends AppCompatActivity {
-
+    //   변수선언
     EditText receiverName;
+    EditText senderName;
     EditText receiverAddredd;
     EditText receiverPhone;
     EditText senderPhone;
@@ -51,18 +33,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //  객체 찾기
         receiverName = (EditText)findViewById(R.id.receiverName);
+        senderName = (EditText)findViewById(R.id.senderName);
         receiverAddredd = (EditText)findViewById(R.id.receiverAddress);
         receiverPhone = (EditText)findViewById(R.id.receiverPhone);
         senderPhone = (EditText)findViewById(R.id.senderPhone);
         companyKey = (EditText)findViewById(R.id.companyKey);
         locationCode = (EditText)findViewById(R.id.locationCode);
 
+        //  번호 "-" 자동 생성
+        receiverPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        senderPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+
     }
 
+    //  토스트 함수 : 메인 스레드가 아닌 곳에서 쓰일 때 사용하기 위함
     public void postToastMessage(final String message) {
+        //  so, 핸들러 이용
         Handler handler = new Handler(Looper.getMainLooper());
-
         handler.post(new Runnable() {
 
             @Override
@@ -71,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    //  sendPost http 통신
+    //  handler에서 해야함
     public void sendPost(View view){
         AsyncTask.execute(new Runnable() {
             @Override
@@ -79,22 +70,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    //  post 통신
     private void http_post(){
         HttpURLConnection urlConn = null;
         StringBuffer sbParams = new StringBuffer();
         sbParams.append("receiverName").append("=").append(receiverName.getText().toString()).append("&");
+        sbParams.append("senderName").append("=").append(senderName.getText().toString()).append("&");
         sbParams.append("receiverAddress").append("=").append(receiverAddredd.getText().toString()).append("&");
         sbParams.append("receiverPhone").append("=").append(receiverPhone.getText().toString()).append("&");
         sbParams.append("senderPhone").append("=").append(senderPhone.getText().toString()).append("&");
         sbParams.append("companyKey").append("=").append(companyKey.getText().toString()).append("&");
         sbParams.append("locationCode").append("=").append(locationCode.getText().toString());
 
+        //  등록 완료시 토스트
+        //  서버에서 검사해서 -> return값을 활요해서 message 출력으로 수정하기 !
         String successMessage = receiverName.getText().toString() + "고객님 등록 완료";
-
         postToastMessage(successMessage);
 
         receiverName.setText("");
+        senderName.setText("");
         receiverAddredd.setText("");
         receiverPhone.setText("");
         senderPhone.setText("");
@@ -102,9 +96,10 @@ public class MainActivity extends AppCompatActivity {
         locationCode.setText("");
 
 
-
+        //  서버통신
         try{
-            URL url = new URL("http://70.12.244.171:3000/users");
+            //  멀캠 : http://172.30.1.9:3000
+            URL url = new URL("http://172.30.1.9:3000/users");
             urlConn = (HttpURLConnection) url.openConnection();
 
             // [2-1]. urlConn 설정.
@@ -149,19 +144,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String getInputStreamFromUrl(String url) {
-        InputStream content = null;
-        try{
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response = httpclient.execute(new HttpGet(url));
-            content = response.getEntity().getContent();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String data = content.toString();
-
-        return data;
-    }
+//    public String getInputStreamFromUrl(String url) {
+//        InputStream content = null;
+//        try{
+//            HttpClient httpclient = new DefaultHttpClient();
+//            HttpResponse response = httpclient.execute(new HttpGet(url));
+//            content = response.getEntity().getContent();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        String data = content.toString();
+//
+//        return data;
+//    }
 }
 
 
