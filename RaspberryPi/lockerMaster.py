@@ -14,18 +14,20 @@ serial_small = serial.Serial(port='/COM5', baudrate=9600)
 #serial = [serial_small, serial_large]
 serial = [serial_small, serial_small]
 server_ip = 'http://192.168.0.5:3000/'
-
+lockers = ['empty', 'empty']
 def sender_open_locker(senderQR, lockerNumber):
   # 서버에 post 요청
   URL = server_ip + 'senderOpen' # senderOpen senderClose receiverOpen receiverClose
   data = {'locationCode': '1', 'senderQR':senderQR, 'lockerNumber':lockerNumber}
   res = requests.put(URL, data= data)
   data = res.json()
+  print(data)
   if data[0] == 1: # 일치하는 항목이 있는 경우 -> 아두이노에 문을 열라는 명령을 내린다.
     print('open door')
+    lockers[lockerNumber] = 'full'
     serial[lockerNumber].write(str.encode('o')) #open 명령
     ch = serial[lockerNumber].readline().decode("utf-8")[0] # 아두이노로부터 문이 닫혔다는 신호를 기다림
-    print (ch)
+    #print (ch)
     if(ch == 'c'):
       print('close door')
       URL = server_ip + 'senderClose' # senderOpen senderClose receiverOpen receiverClose
@@ -76,7 +78,7 @@ def display(im, decodedObjects):
    
 # Main 
 if __name__ == '__main__':
-  lockers = ['empty', 'empty']
+  
   cap = cv2.VideoCapture(0)
   detected = 0
   while(True):
@@ -119,17 +121,15 @@ if __name__ == '__main__':
         if(len(decodedObjects) == 1):
           if(decodedObjects[0].polygon[0][0] > 500 and lockers[0] == 'empty'):
             #print ("small")
-            lockers[0] = 'full'
             t = threading.Thread(target=sender_open_locker, args=(QRcode, 0))
             t.start()
               
-            sender_open_locker(QRcode, 0)
+            
           elif(decodedObjects[0].polygon[0][0] < 140 and lockers[1] == 'empty'):
             #print ("large")
-            lockers[1] = 'full'
             t = threading.Thread(target=sender_open_locker, args=(QRcode, 1))
             t.start()
-            sender_open_locker(QRcode, 1)
+            
 
       ## QRcode가 1로 시작하면 -> 수신인
       elif(QRcode[0] == '1'):
