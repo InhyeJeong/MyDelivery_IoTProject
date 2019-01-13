@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.os.Handler;
@@ -60,7 +61,7 @@ public class SenderActivity extends AppCompatActivity {
     TextView tv_receiver_phone;
     TextView tv_s_state;
     ImageView iv_sender_qr;
-
+    TextView tv_s_mynum;
     ArrayList<sender_listviewitem> arrayList = new ArrayList<>();
 
     //  QR코드 활용
@@ -71,7 +72,7 @@ public class SenderActivity extends AppCompatActivity {
     QRGEncoder qrgEncoder;
 
     //  멀캠 : String host = "http://70.12.244.171:3000";
-    String host = "http://172.30.1.9:3000";
+    String host = "http://192.168.0.5:3000";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,10 +84,13 @@ public class SenderActivity extends AppCompatActivity {
         tv_receiver_name = (TextView) findViewById(R.id.tv_receiver_name);
         tv_receiver_address = (TextView) findViewById(R.id.tv_receiver_address);
         tv_receiver_phone = (TextView) findViewById(R.id.tv_receiver_phone);
+        tv_s_mynum = (TextView)findViewById(R.id.tv_s_mynum);
 
         tv_s_state = (TextView) findViewById(R.id.tv_s_state);
         iv_sender_qr = (ImageView) findViewById(R.id.iv_sender_qr);
-
+        //  text underline
+        tv_s_mynum.setPaintFlags(tv_s_mynum.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tv_mynum2.setPaintFlags(tv_mynum2.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         try {
 
 
@@ -161,10 +165,6 @@ public class SenderActivity extends AppCompatActivity {
             //  Adapter에게 전달할 data 구성 해야함
             arrayList = new ArrayList<>();
             new HttpTask().execute(url);
-
-
-
-
         } catch (Exception e) {
         }
     }   //  oncreate
@@ -173,15 +173,12 @@ public class SenderActivity extends AppCompatActivity {
     class HttpTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... params) {
             InputStream is = getInputStreamFromUrl(params[0]);
-
             String result = convertStreamToString(is);//이 함수는 이 페이지를 참고
-
             return result;
         }
 
         protected void onPostExecute(final String result) {
             Handler handler = new Handler(Looper.getMainLooper());
-
             handler.post(new Runnable() {
 
                 @Override
@@ -244,95 +241,23 @@ public class SenderActivity extends AppCompatActivity {
         return content;
     }
 
-    private static String convertStreamToString(InputStream is)
-
-    {
-
+    private static String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-
         StringBuilder sb = new StringBuilder();
-
-
         String line = null;
-
-        try
-
-        {
-
-            while ((line = reader.readLine()) != null)
-
-            {
-
+        try{
+            while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
-
             }
-
-        } catch (IOException e)
-
-        {
-
+        } catch (IOException e) {
             e.printStackTrace();
-
-        } finally
-
-        {
-
-            try
-
-            {
-
+        } finally {
+            try{
                 is.close();
-
-            } catch (IOException e)
-
-            {
-
+            } catch (IOException e) {
                 e.printStackTrace();
-
             }
-
         }
-
         return sb.toString();
-
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

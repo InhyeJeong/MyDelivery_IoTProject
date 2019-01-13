@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -44,6 +45,7 @@ public class ReceiverActivity extends AppCompatActivity {
     SenderListViewAdapter listViewAdapter;
 
     TextView tv_r_mynum2;
+    TextView tv_r_mynum;
 
     //  receiver item list;
     TextView tv_sender_name;
@@ -60,7 +62,7 @@ public class ReceiverActivity extends AppCompatActivity {
     QRGEncoder qrgEncoder;
 
     //  멀캠 : String host = "http://70.12.244.171:3000";
-    String host = "http://172.30.1.9:3000";
+    String host = "http://192.168.0.5:3000";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,11 @@ public class ReceiverActivity extends AppCompatActivity {
         tv_sender_name = (TextView)findViewById(R.id.tv_sender_name);
         tv_sender_phone = (TextView)findViewById(R.id.tv_sender_phone);
         tv_r_state = (TextView)findViewById(R.id.tv_r_state);
+        tv_r_mynum = (TextView)findViewById(R.id.tv_r_mynum);
+
+        //  text underline
+        tv_r_mynum.setPaintFlags(tv_r_mynum.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tv_r_mynum2.setPaintFlags(tv_r_mynum2.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         try{
             //  권한받기

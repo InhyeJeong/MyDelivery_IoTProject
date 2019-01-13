@@ -12,10 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="99dp" />
+        app:layout_constraintGuide_begin="80dp" />
 
     <TextView
-        android:id="@+id/tv_mynum"
+        android:id="@+id/tv_s_mynum"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -45,7 +45,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Sender PhoneNumber"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/guideline1"
@@ -55,12 +55,10 @@
 
     <ListView
         android:id="@+id/listview_sender"
-        android:layout_width="585dp"
-        android:layout_height="730dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

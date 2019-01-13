@@ -1,5 +1,6 @@
 package com.example.student.deliveryregistration;
 
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,7 +9,11 @@ import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
     EditText senderPhone;
     EditText companyKey;
     EditText locationCode;
+    TextView tv_register_title;
 
+    TextView tv_register_sender;
+    TextView tv_register_receiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +49,12 @@ public class MainActivity extends AppCompatActivity {
         senderPhone = (EditText)findViewById(R.id.senderPhone);
         companyKey = (EditText)findViewById(R.id.companyKey);
         locationCode = (EditText)findViewById(R.id.locationCode);
+        tv_register_title = (TextView)findViewById(R.id.tv_register_title);
 
+        //  text underline
+//        tv_register_title.setPaintFlags(tv_register_title.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+//        tv_register_sender.setPaintFlags(tv_register_sender.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+//        tv_register_receiver.setPaintFlags(tv_register_receiver.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         //  번호 "-" 자동 생성
         receiverPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
         senderPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
@@ -99,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         //  서버통신
         try{
             //  멀캠 : http://172.30.1.9:3000
-            URL url = new URL("http://172.30.1.9:3000/users");
+            URL url = new URL("http://192.168.0.5:3000/users");
             urlConn = (HttpURLConnection) url.openConnection();
 
             // [2-1]. urlConn 설정.
