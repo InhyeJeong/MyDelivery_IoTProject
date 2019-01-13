@@ -22,6 +22,7 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 * 서버가 라즈베리파이, 스마트폰 어플과 통신
 [사진]
 * GET, POST, PUT, DELETE의 형식으로 **Controller** 구현
+
 자세한 내용은 [app.js](./codlab-nodejs/app.js)에 있습니다.
 ```java
 :
@@ -46,6 +47,7 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 :
 ```
 * Model 분리
+
 자세한 내용은 [models.js](./codlab-nodejs/models.js)에 있습니다.
 ```java
 const User = sequelize.define('delivery_test', {
@@ -161,6 +163,7 @@ for (var i = 0; i < 20; i++){
 :
 ```
 * 서버에서 받은 랜덤 String으로 **QR코드 구현**
+
 자세한 내용은 [models.js](./MyDelivery/app/src/main/java/com/example/test/mydelivery/Adapter/SenderListViewAdapter.java)에 있습니다.
 ```java
 :
