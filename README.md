@@ -18,7 +18,7 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 
 ## 기능별 소개
 
-### NodeJs를 활용하여 RestApi 서버 생성
+### 1. NodeJs를 활용하여 RestApi 서버 생성
 * 서버가 라즈베리파이, 스마트폰 어플과 통신
 [사진]
 * GET, POST, PUT, DELETE의 형식으로 **Controller** 구현
@@ -71,7 +71,6 @@ const User = sequelize.define('delivery_test', {
 * **랜덤**으로 QR코드 String으로 생성 후, 발신 및 수신 어플에서 QR코드 구현
 ```java
 :
-:
 //   1. 접수직원 / create : post
 app.post('/users', (req, res)  => {
 
@@ -84,26 +83,21 @@ for (var i = 0; i < 20; i++){
     case 0:
         // a-z
         randomQR+=String( ( (Math.floor(Math.random() * 26))+ 97) );
-        //randomQR.append((char) ((int) (rnd.nextInt(26)) + 97));
         break;
     case 1:
         // A-Z
         randomQR+= String( ( (Math.floor(Math.random() * 26)) + 65) );
-        //randomQR.append((char) ((int) (rnd.nextInt(26)) + 65));
         break;
     case 2:
         // 0-9
         randomQR+=(Math.floor(Math.random() * 10));
-        //randomQR.append((rnd.nextInt(10)));
         break;
     };
 };
 :
-:
-
 ```
 
-### 발신자 어플, 수신자어플
+### 2. 발신자 어플, 수신자어플
 * 발신자의 번호를 발신자 어플에서 자동 인식
 [사진]
 * 발신자의 배달 목록을 **ListView** 를 활용하여 아래의 **우선순위로 정렬**
@@ -193,9 +187,15 @@ Bitmap string_to_QRcode(String string_QR){
 :
 ```
 
-### 배달 접수 어플
+### 4. 배달 접수 어플
 * 아래의 항목을 입력하면 서버로 data 전송
 [사진]
 
-
-
+### 5. 하드웨어 제어 로직
+* 보관함 크기(small / big)에 따라 화면 분할(left / right)하여 QR코드 인식
+자세한 내용은[](./)에 있습니다.
+[사진]
+[코드]
+* Arduino
+자세한 내용은[](./)에 있습니다.
+[코드]
