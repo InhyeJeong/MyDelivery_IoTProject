@@ -198,4 +198,37 @@ Bitmap string_to_QRcode(String string_QR){
 [코드]
 * Arduino
 자세한 내용은[](./)에 있습니다.
-[코드]
+```java
+void loop() {
+  if (state == 0){// 문이 닫혀있는 상태 -> 라즈베리파이로부터 문을 열어달라는 신호를 기다림
+    char ch = Serial.read();
+    if(ch == 'o'){ // o는 open을 의미함
+      // 서보모터로 문을 열어줌
+      myservo.write(servoOpen);
+      led_red();
+      // state를 1(open)로 변경
+      state = 1;
+    }
+  }
+  else if (state == 1){ // 문이 열려있는 상태 -> 리드센서를 확인하여 문이 닫히는 순간을 라즈베리파이에게 알려줌
+    // 리드스위치 읽기
+    int reed_switch = digitalRead(reedPin);
+    if(reed_switch == 0){//문이 닫히는 경우
+      reedCount++;
+      led_yello();
+      delay(100);
+    }
+    else {
+      reedCount = 0;
+      led_red();
+    }
+
+    if(reedCount > 10){ // reed센서가 자격을 특정횟수 이상만큼 연속으로 감지하면 문 잠금
+      myservo.write(servoClosed); // 문 닫기 
+      Serial.println('c'); // c는 closed를 의미, 라즈베리파이에 문이 닫힘을 알려줌
+      reedCount = 0;
+      state = 0; // 상태를 closed로 바꿈
+      led_white();
+    }
+  }
+```
