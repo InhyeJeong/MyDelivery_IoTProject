@@ -32,6 +32,9 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
   app.get('/sender/:senderPhone', (req, res) => {
   :
   }
+  app.get('/receiver/:receiverPhone', (req, res) => {
+    :
+  }
   app.put('/senderOpen', (req, res) => {
     :
   }
