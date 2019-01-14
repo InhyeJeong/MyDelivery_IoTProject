@@ -110,19 +110,14 @@ public class ReceiverListViewAdapter extends BaseAdapter {
         //  배달이 완료되면 배경색 회색 변경
         if(list.get(pos).getState().equals("0")){   // reg
             r_layout.setBackgroundColor(Color.rgb(255,255,255));
-            //tv_d_state.setText("");
         }else if(list.get(pos).getState().equals("1")){//   locked
-            r_layout.setBackgroundColor(Color.rgb(150,150,150));
-            //tv_d_state.setText("배달 완료");
-            //tv_d_state.setTextColor(Color.rgb(0,0,255));
+            r_layout.setBackgroundColor(Color.rgb(255,255,255));
         }else if(list.get(pos).getState().equals("2")){ //  received
-            r_layout.setBackgroundColor(Color.rgb(100,100,100));
-            //tv_d_state.setText("수신 완료");
-            //tv_d_state.setTextColor(Color.rgb(255,0,0));
+            r_layout.setBackgroundColor(Color.rgb(150,150,150));
         }
 
         // 뷰에 넣을 문자열 구성
-        String state_show = "state : ";
+        String state_show = "상태 : ";
         if(list.get(pos).getState().equals("0")){
             state_show += "registration";
         }else if(list.get(pos).getState().equals("1")){
@@ -132,8 +127,8 @@ public class ReceiverListViewAdapter extends BaseAdapter {
         }
 
         // 뷰에 스트링 담아주기
-        tv_sender_name.setText(list.get(pos).getSenderName());
-        tv_sender_phone.setText(list.get(pos).getSenderPhone());
+        tv_sender_name.setText("성함 : "+list.get(pos).getSenderName());
+        tv_sender_phone.setText("연락처 : "+list.get(pos).getSenderPhone());
         tv_r_state.setText(state_show);
 
         String receiver_qr = list.get(pos).getReceiver_qr();
@@ -198,7 +193,6 @@ public class ReceiverListViewAdapter extends BaseAdapter {
                 smallerDimension);
         try {
             bitmap_QR = qrgEncoder.encodeAsBitmap();
-
             return bitmap_QR;
         } catch (WriterException e) {
             Log.v(TAG, e.toString());

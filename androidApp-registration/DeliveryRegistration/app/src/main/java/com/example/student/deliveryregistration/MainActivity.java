@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         //  서버통신
         try{
             //  멀캠 : http://172.30.1.9:3000
-            URL url = new URL("http://192.168.0.5:3000/users");
+            URL url = new URL("http://70.12.244.171:3000/users");
             urlConn = (HttpURLConnection) url.openConnection();
 
             // [2-1]. urlConn 설정.

@@ -41,7 +41,20 @@ public class receiver_listviewitem implements Comparable<receiver_listviewitem> 
         if(this.state.equals(target.getState())){
             return this.CreatedAt.compareTo(target.getCreatedAt());
         }else {
-            return this.state.compareTo(target.getState());
+
+            // locked -> registered -> received 순서로 우선순위 매기기
+            // 비교하기 위한 state를 담을 변수 m, o
+            String m;
+            String o;
+            if(this.state.equals("0")) m = "1";
+            else if(this.state.equals("1")) m = "0";
+            else m = "2";
+
+            if(target.state.equals("0")) o = "1";
+            else if(target.state.equals("1")) o = "0";
+            else o = "2";
+
+            return m.compareTo(o);
         }
     }
 

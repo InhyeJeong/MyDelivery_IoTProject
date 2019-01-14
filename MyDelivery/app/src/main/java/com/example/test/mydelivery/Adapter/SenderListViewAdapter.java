@@ -55,7 +55,6 @@ public class SenderListViewAdapter extends BaseAdapter {
 
     //  QR코드 활용
     String TAG = "GenerateQRCode";
-    //String savePath = Environment.getExternalStorageDirectory().getPath() + "/QRCode/";
 
     //  QR코드 라이브러리 사용
     QRGEncoder qrgEncoder;
@@ -107,25 +106,19 @@ public class SenderListViewAdapter extends BaseAdapter {
         tv_receiver_phone = (TextView)view.findViewById(R.id.tv_receiver_phone);
         tv_s_state = (TextView)view.findViewById(R.id.tv_s_state);
         iv_sender_qr=(ImageView)view.findViewById(R.id.iv_sender_qr);
-        //tv_d_state = (TextView)view.findViewById(R.id.tv_d_state);
         s_layout = (ConstraintLayout)view.findViewById(R.id.s_layout); // 배달 상태에 따른 배경 색상 변경
 
         //  배달이 완료되면 배경색 회색 변경
         if(list.get(pos).getState().equals("0")){   // reg
             s_layout.setBackgroundColor(Color.rgb(255,255,255));
-            //tv_d_state.setText("");
         }else if(list.get(pos).getState().equals("1")){//   locked
             s_layout.setBackgroundColor(Color.rgb(150,150,150));
-            //tv_d_state.setText("배달 완료");
-            //tv_d_state.setTextColor(Color.rgb(0,0,255));
         }else if(list.get(pos).getState().equals("2")){ //  received
             s_layout.setBackgroundColor(Color.rgb(100,100,100));
-            //tv_d_state.setText("수신 완료");
-            //tv_d_state.setTextColor(Color.rgb(255,0,0));
         }
 
         // 뷰에 넣을 문자열 구성
-        String state_show = "state : ";
+        String state_show = "상태 : ";
         if(list.get(pos).getState().equals("0")){
             state_show += "registration";
         }else if(list.get(pos).getState().equals("1")){
@@ -134,10 +127,11 @@ public class SenderListViewAdapter extends BaseAdapter {
             state_show += "received";
         }
 
+
         // 뷰에 스트링 담아주기
-        tv_receiver_name.setText(list.get(pos).getReceiverName());
-        tv_receiver_address.setText(list.get(pos).getReceiverAddress());
-        tv_receiver_phone.setText(list.get(pos).getReceiverPhone());
+        tv_receiver_name.setText("성함: "+ list.get(pos).getReceiverName());
+        tv_receiver_address.setText("주소 : " + list.get(pos).getReceiverAddress());
+        tv_receiver_phone.setText("연락처 : "+list.get(pos).getReceiverPhone());
         tv_s_state.setText(state_show);
         String sender_qr = list.get(pos).getSender_qr();
         Bitmap bitmap;
@@ -179,13 +173,13 @@ public class SenderListViewAdapter extends BaseAdapter {
                 else if(list.get(pos).getState().equals("2")){
                     intent.putExtra("whichImage", "2");
                 }
-
                 context.startActivity(intent);
             }
         });
 
         return view;
     }
+    //  서버에서 받은 stirng - > QRcode로 변경
     Bitmap string_to_QRcode(String string_QR){
         Bitmap bitmap_QR;
         WindowManager manager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
@@ -202,7 +196,6 @@ public class SenderListViewAdapter extends BaseAdapter {
                 smallerDimension);
         try {
             bitmap_QR = qrgEncoder.encodeAsBitmap();
-
             return bitmap_QR;
         } catch (WriterException e) {
             Log.v(TAG, e.toString());

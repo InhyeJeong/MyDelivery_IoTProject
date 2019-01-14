@@ -45,7 +45,7 @@
         android:text="Sender Open Time"
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
@@ -84,7 +84,7 @@
         android:text="Sender Close Time"
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
@@ -102,7 +102,7 @@
         android:text="Receiver Open Time"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/guideline15"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
@@ -120,10 +120,11 @@
         android:text="Receiver Close Time"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline15" />
 
@@ -194,8 +195,15 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="@+id/guideline15" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="550dp" />
 </android.support.constraint.ConstraintLayout>

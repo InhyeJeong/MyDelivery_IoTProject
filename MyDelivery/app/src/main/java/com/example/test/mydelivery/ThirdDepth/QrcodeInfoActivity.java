@@ -43,12 +43,23 @@ public class QrcodeInfoActivity extends AppCompatActivity {
         tv3.setPaintFlags(tv3.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tv4.setPaintFlags(tv4.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+
         //  data 받아오기
         Intent intent = getIntent();
-        tv_s_open.setText(intent.getStringExtra("SenderOpenTime"));
-        tv_s_close.setText(intent.getStringExtra("SenderCloseTime"));
-        tv_r_open.setText(intent.getStringExtra("ReceiverOpenTime"));
-        tv_r_close.setText(intent.getStringExtra("ReceiverCloseTime"));
+        DateFormat dateFormat = new DateFormat();
+
+        // SenderOpenTime
+        dateFormat.set_data(intent.getStringExtra("SenderOpenTime"));
+        tv_s_open.setText(dateFormat.parse());
+        //  SenderCloseTime
+        dateFormat.set_data(intent.getStringExtra("SenderCloseTime"));
+        tv_s_close.setText(dateFormat.parse());
+        //  ReceiverOpenTime
+        dateFormat.set_data(intent.getStringExtra("ReceiverOpenTime"));
+        tv_r_open.setText(dateFormat.parse());
+        //  ReceiverCloseTime
+        dateFormat.set_data(intent.getStringExtra("ReceiverCloseTime"));
+        tv_r_close.setText(dateFormat.parse());
 
         if(intent.getStringExtra("whichImage").equals("bitmap")){
             //  QR코드 사진 data 받아오기(byte -> bitmap)
