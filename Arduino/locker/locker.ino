@@ -3,6 +3,7 @@
 #define servoPin 9
 #define servoOpen 20
 #define servoClosed 90
+#define buzzerPin 4
 #define redPin 7
 #define greenPin 6
 #define bluePin 5
@@ -40,6 +41,7 @@ void led_yello(){
   digitalWrite(redPin, HIGH);
   digitalWrite(bluePin, LOW);
   digitalWrite(greenPin, HIGH);
+  tone(buzzerPin, 261, 100);
 }
 
 void setup() {
@@ -52,7 +54,7 @@ void setup() {
   pinMode(redPin, OUTPUT);
   pinMode(bluePin, OUTPUT);
   pinMode(greenPin, OUTPUT);
-  
+  pinMode(buzzerPin, OUTPUT);
   led_white();
 }
 
@@ -64,6 +66,7 @@ void loop() {
       // 서보모터로 문을 열어줌
       myservo.write(servoOpen);
       led_red();
+      tone(buzzerPin, 494, 1000);
       // state를 1(open)로 변경
       state = 1;
     }

@@ -7,18 +7,21 @@ import requests
 import time
 import serial
 import threading
+import json
 
-
-serial_small = serial.Serial(port='/COM5', baudrate=9600)
-#serial_large = serial.Serial(port='/COM12', baudrate=9600)
-#serial = [serial_small, serial_large]
-serial = [serial_small, serial_small]
-server_ip = 'http://192.168.0.5:3000/'
+serial_small = serial.Serial(port='/COM9', baudrate=9600)
+serial_large = serial.Serial(port='/COM6', baudrate=9600)
+serial = [serial_small, serial_large]
+#serial = [serial_small, serial_small]
+server_ip = 'http://70.12.244.171:3000/'
 lockers = ['empty', 'empty']
+locker_state = ['closed', 'closed'] # closed, open
+locationCode = 'NW1'
+
 def sender_open_locker(senderQR, lockerNumber):
   # 서버에 post 요청
   URL = server_ip + 'senderOpen' # senderOpen senderClose receiverOpen receiverClose
-  data = {'locationCode': '1', 'senderQR':senderQR, 'lockerNumber':lockerNumber}
+  data = {'locationCode': locationCode, 'senderQR':senderQR, 'lockerNumber':lockerNumber}
   res = requests.put(URL, data= data)
   data = res.json()
   print(data)
@@ -30,13 +33,28 @@ def sender_open_locker(senderQR, lockerNumber):
     #print (ch)
     if(ch == 'c'):
       print('close door')
-      URL = server_ip + 'senderClose' # senderOpen senderClose receiverOpen receiverClose
-      data = {'locationCode': '1', 'senderQR':senderQR}
+      URL = server_ip + 'senderClose' 
+      data = {'locationCode': locationCode, 'senderQR':senderQR}
       requests.put(URL, data= data)      
 
-
-    
-  
+def receiver_open_locker(receiverQR, _):
+  URL = server_ip + 'receiverOpen'
+  data = {'locationCode': locationCode, 'receiverQR':receiverQR}
+  res = requests.put(URL, data= data)
+  data = res.json()
+  if len(data) == 1:
+    if locker_state[data["lockerNumber"]] == 'open': # 이미 열려있는 경우
+      return
+    else :
+      locker_state[data["lockerNumber"]] = 'open' # 열려있지 않은 경우에는 열림으로 변경
+    serial[data["lockerNumber"]].write(str.encode('o')) # 아두이노에open 명령
+    ch = serial[data["lockerNumber"]].readline().decode("utf-8")[0] # 아두이노로부터 문이 닫혔다는 신호를 기다림
+    if(ch == 'c'):
+      locker_state[data["lockerNumber"]] = 'closed' # 닫힘으로 표시
+      lockers[data["lockerNumber"]] = 'empty' # 해당 locker에 empty로 표시
+      URL = server_ip + 'receiverClose' # 서버에 문 닫힘을 알림
+      data = {'locationCode': locationCode, 'receiverQR':receiverQR}
+      requests.put(URL, data= data)        
 def decode(im) : 
   # Find barcodes and QR codes
   decodedObjects = pyzbar.decode(im)
@@ -79,8 +97,9 @@ def display(im, decodedObjects):
 # Main 
 if __name__ == '__main__':
   
-  cap = cv2.VideoCapture(0)
+  cap = cv2.VideoCapture(1)
   detected = 0
+  
   while(True):
     # 카메라에서 이미지 읽어오기
     ret, frame = cap.read()
@@ -112,36 +131,23 @@ if __name__ == '__main__':
       cv2.putText(frame, lockers[1], (500, 300), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0))
 
     if(len(decodedObjects) == 1): ## QR코드가 1개 인식됨
-      detected = 30
       QRcode = decodedObjects[0].data.decode("utf-8")
       
       ## QRcode가 0으로 시작하면 -> 발신인
       if(QRcode[0] == '0'):
-          
-        if(len(decodedObjects) == 1):
-          if(decodedObjects[0].polygon[0][0] > 500 and lockers[0] == 'empty'):
-            #print ("small")
-            t = threading.Thread(target=sender_open_locker, args=(QRcode, 0))
-            t.start()
-              
-            
-          elif(decodedObjects[0].polygon[0][0] < 140 and lockers[1] == 'empty'):
-            #print ("large")
-            t = threading.Thread(target=sender_open_locker, args=(QRcode, 1))
-            t.start()
-            
-
+        detected = 30
+        if(decodedObjects[0].polygon[0][0] > 500 and lockers[0] == 'empty'):
+          #print ("small")
+          t = threading.Thread(target=sender_open_locker, args=(QRcode, 0))
+          t.start()              
+        elif(decodedObjects[0].polygon[0][0] < 140 and lockers[1] == 'empty'):
+          #print ("large")
+          t = threading.Thread(target=sender_open_locker, args=(QRcode, 1))
+          t.start()
       ## QRcode가 1로 시작하면 -> 수신인
       elif(QRcode[0] == '1'):
-        a = 1
-        ## 서버에 QR, 지역코드를 전송해서 결과값 받아옴
-        ## 결과값이 1
-          ## 결과값에서 보관함번호를 알아내어 해당 보관함 열어줌
-        ## 결과값이 0
-          ## 해당 QRcode와 일치하는 항목이 없음을 출력 후 pass
-
-      ## 아두이노로부터 
-
+        t = threading.Thread(target=receiver_open_locker, args=(QRcode, 0))
+        t.start()
     else:
       detected -= 1
 
@@ -150,7 +156,7 @@ if __name__ == '__main__':
     
         
     # 화면 출력
-    cv2.imshow("frame", frame), cv2.waitKey(1)
+    cv2.imshow("frame", cv2.resize(frame, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)), cv2.waitKey(1)
   cv2.destroyAllWindows()
   cap.release()
 
