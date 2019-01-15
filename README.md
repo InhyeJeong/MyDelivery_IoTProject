@@ -6,7 +6,13 @@
 ```dart
 NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, curl, Sequelize, date-utils
 ```
+## 문제제기 & 기획 주제
+[사진][사진]
 
+## 기획과정(plan)
+[사진]
+## 전체 구조
+[사진]
 ## **Sensor**
 ```
 - Raspberry Pi
