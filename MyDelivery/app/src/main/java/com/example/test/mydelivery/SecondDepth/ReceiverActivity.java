@@ -104,6 +104,7 @@ public class ReceiverActivity extends AppCompatActivity {
             String number = phoneMgr.getLine1Number();
             number = number.replace("+82", "");
             number = "0" + number.substring(0, 2) + "-" + number.substring(2, 6) + "-" + number.substring(6, 10);
+
             tv_r_mynum2.setText(number);
 
             //  서버

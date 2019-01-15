@@ -282,7 +282,6 @@ app.put('/receiverOpen', (req, res) => {
 
   const receiverQR = req.body.receiverQR || '';
   const locationCode =  req.body.locationCode || '';
-  const lockerNumber = req.body.lockerNumber || '';
 
   var loadDt = new Date();
   const newDate = new Date(Date.parse(loadDt) + 1000 * 60 * 60 * 9);
@@ -297,9 +296,6 @@ app.put('/receiverOpen', (req, res) => {
   if (!locationCode.length) {
     return res.status(400).json({error: 'Incorrect locationCode'});
   }
-  if (!lockerNumber.length) {
-    return res.status(400).json({error: 'Incorrect lockerNumber'});
-  }
   if (!receiverOpenTime.length) {
     return res.status(400).json({error: 'Incorrect receiverOpenTime'});
   }
@@ -310,9 +306,15 @@ app.put('/receiverOpen', (req, res) => {
     
     //  receiverQR기준으로 수정
     { where: {receiverQR : receiverQR,
-    locationCode : locationCode} }
-   
-).then((user) => res.status(201).json(user))
+    locationCode : locationCode} })
+
+  models.User.findOne(
+    //  phoneNumber 기준으로 수정
+  {where: {receiverQR : receiverQR,
+    locationCode : locationCode}, 
+    attributes: ['lockerNumber']}
+
+  ).then(user => res.json(user));
   
 });
 
@@ -355,97 +357,3 @@ app.put('/receiverClose', (req, res) => {
 ).then((user) => res.status(201).json(user))
   
 });
-
-
-
-
-
-//------------------------아래는 원본 CRUD함수-------------------//
-
-
-// show : get/findById
-
-app.get('/users/:id', (req, res) => {
-    const id = parseInt(req.params.id, 10);
-    if (!id) {
-      return res.status(400).json({error: 'Incorrect id'});
-    }
-    
-    models.User.findOne({
-        where: {//  where : id 컬럼 조건값 설정
-          id: id
-        }
-      }).then(user => {
-        if (!user) {//  없으면 404 응답
-          return res.status(404).json({error: 'No User'});
-        }
-        //  성공하면 json()로 응답
-        return res.json(user);
-      });
-  });
-
-
-
-
-
-// destroy : delete
-app.delete('/users/:id', (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  if (!id) {
-    return res.status(400).json({error: 'Incorrect id'});
-  }
- 
-  models.User.destroy({
-    where: {// id기준으로 삭제 
-      id: id
-    }
-  }).then(() => res.status(204).send());	// no content = 204
-});
-
-
-
-
-//  update : PUT
-app.put('/users', (req, res) => {
-  // id 받아옴
-  const id_string = req.body.id || ''; 
-  const id = parseInt(id_string, 10);
-  if (!id) {
-    return res.status(400).json({error: 'Incorrect id'});
-  }
-  //  receiveName 받아옴
-  const receiverName = req.body.receiverName || ''; // 없을시 빈문자열 추가
-  
-  if (!receiverName.length) {
-   return res.status(400).json({error: 'Incorrenct name'});
-  }
-
-  console.log(id);
-  console.log(receiverName);
-
-
-  // User.update({ nom: req.body.nom }, { where: {id: user.id} });
-  models.User.update(
-    
-    {receiverName: receiverName,
-     receiverAddress : receiverAddress,
-    locationCode : locationCode,
-    receiverPhone : receiverPhone,
-    receiverQR : receiverQR,
-    senderPhone : senderPhone,
-    senderQR : senderQR,
-    senderOpenTime : senderOpenTime,
-    senderCloseTime: senderCloseTime,
-    receiverOpenTime : receiverOpenTime,
-    receiverCloseTime :receiverCloseTime,
-    state : state,
-    companyKey : companyKey,
-    lockerNumber : Sequelize.INTEGER
-    },
-    // id기준으로 수정
-    { where: {id: id} }
-   
-).then((user) => res.status(201).json(user))
-  
-});
-
