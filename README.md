@@ -1,4 +1,4 @@
-# MyDelivery_RestApi(IoT Project)
+# MyDelivery(IoT Project)
 - 이 프로젝트는 무인택배함을 수신자 및 배달기사가 **QR코드**로 인식하여 열고 닫히도록 되어있으며, 이를 통해 보안을 강화하는 프로젝트입니다.
 - 19년 12월 ~ 19년 1월 15일
 
