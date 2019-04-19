@@ -13,8 +13,6 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 ### Problems
 <p align="center">
 <img src="./images/problem.JPG" width="500" >	
-</p>
-<p align="center">
 <img src="./images/problem2.JPG" width="500" >	
 </p>
 
