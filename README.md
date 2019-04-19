@@ -3,20 +3,26 @@
 - 19년 12월 ~ 19년 1월 15일
 
 ##  이 프로젝트의 **Tech Stack**
+
 <p align="center">
 <img src="./images/techstack.JPG" width="500" >	
 </p>
+
 ```dart
 NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, curl, Sequelize, date-utils
 ```
+
 ## 문제제기 & 기획 주제
+
 ### Problems
+
 <p align="center">
 <img src="./images/problem.JPG" width="500" >	
 <img src="./images/problem2.JPG" width="500" >	
 </p>
 
 ### Our Solution
+
 <p align="center">
   <img src="./images/subject2.JPG" width="500" >
   <img src="./images/subject.JPG" width="500" >
@@ -24,16 +30,19 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 </p>
 
 ## 기획과정(plan)
+
 <p align="center">
 <img src="./images/plan.JPG" width="500" >	
 </p>
 
 ## 전체 구조
+
 <p align="center">
 <img src="./images/blueprint.JPG" width="500" >	
 </p>
 
 ## **Sensor**
+
 ```dart
 - Raspberry Pi
 - Arduino
@@ -46,6 +55,7 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 
 ### 1. NodeJs를 활용하여 RestApi 서버 생성
 * 서버가 라즈베리파이, 스마트폰 어플과 통신
+
 <p align="center">
 <img src="./images/7.JPG" width="500" >	
 </p>
@@ -53,6 +63,7 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 * GET, POST, PUT, DELETE의 형식으로 **Controller** 구현
 
 자세한 내용은 [app.js](./codlab-nodejs/app.js)에 있습니다.
+
 <p align="center">
 <img src="./images/1.JPG" width="500" >	
 </p>
@@ -83,6 +94,7 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 :
 ```
 * Model 분리
+
 <p align="center">
 <img src="./images/2.JPG" width="500" >	
 </p>
@@ -108,6 +120,7 @@ const User = sequelize.define('delivery_test', {
   });
 ```
 * **랜덤**으로 QR코드 String으로 생성 후, 발신 및 수신 어플에서 QR코드 구현
+
 <p align="center">
 <img src="./images/3.JPG" width="500" >	
 </p>
@@ -146,6 +159,7 @@ for (var i = 0; i < 20; i++){
 * 발신자의 배달 목록을 **ListView** 를 활용하여 아래의 **우선순위로 정렬**
   1. 배달 현황(registration, locked, received)
   2. 접수시간(mysql의 creatAt 데이터 활용)
+  
 <p align="center">
   <img src="./images/5.JPG" width="500" >	
 </p>
@@ -165,6 +179,7 @@ for (var i = 0; i < 20; i++){
 :
 ```
 * 각 항목 클릭 시, **확대된 QR코드**와 **Sender Open/Close Time, Receiver Open/Close Time** 출력
+
 <p align="center">
   <img src="./images/6.JPG" width="500" >	
 </p>
@@ -238,6 +253,7 @@ Bitmap string_to_QRcode(String string_QR){
 
 ### 4. 배달 접수 어플
 * 아래의 항목을 입력하면 서버로 data 전송
+
 <p align="center">
   <img src="./images/4.JPG" width="500" >	
 </p>
@@ -245,10 +261,9 @@ Bitmap string_to_QRcode(String string_QR){
 ### 5. 하드웨어 제어 로직
 * 보관함 크기(small / big)에 따라 화면 분할(left / right)하여 QR코드 인식
 자세한 내용은[](./)에 있습니다.
+
 <p align="center">
   <img src="./images/7.JPG" width="500" >	
-</p>
-<p align="center">
   <img src="./images/8.JPG" width="500" >	
 </p>
 
