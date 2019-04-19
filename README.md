@@ -5,7 +5,7 @@
 ##  이 프로젝트의 **Tech Stack**
 
 <p align="center">
-<img src="./images/techstack.JPG" width="500" >	
+<img src="./images/techstack.JPG" width=".700" >	
 </p>
 
 ```dart
@@ -17,28 +17,28 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 ### Problems
 
 <p align="center">
-<img src="./images/problem.JPG" width="500" >	
-<img src="./images/problem2.JPG" width="500" >	
+<img src="./images/problem.JPG" width="700" >	
+<img src="./images/problem2.JPG" width="700" >	
 </p>
 
 ### Our Solution
 
 <p align="center">
-  <img src="./images/subject2.JPG" width="500" >
-  <img src="./images/subject.JPG" width="500" >
-  <img src="./images/oursolution.JPG" width="500" >	
+  <img src="./images/subject2.JPG" width="700" >
+  <img src="./images/subject.JPG" width="700" >
+  <img src="./images/oursolution.JPG" width="700" >	
 </p>
 
 ## 기획과정(plan)
 
 <p align="center">
-<img src="./images/plan.JPG" width="500" >	
+<img src="./images/plan.JPG" width="700" >	
 </p>
 
 ## 전체 구조
 
 <p align="center">
-<img src="./images/blueprint.JPG" width="500" >	
+<img src="./images/blueprint.JPG" width="700" >	
 </p>
 
 ## **Sensor**
@@ -57,7 +57,7 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 * 서버가 라즈베리파이, 스마트폰 어플과 통신
 
 <p align="center">
-<img src="./images/7.JPG" width="500" >	
+<img src="./images/7.JPG" width="700" >	
 </p>
 
 * GET, POST, PUT, DELETE의 형식으로 **Controller** 구현
@@ -65,7 +65,7 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 자세한 내용은 [app.js](./codlab-nodejs/app.js)에 있습니다.
 
 <p align="center">
-<img src="./images/1.JPG" width="500" >	
+<img src="./images/1.JPG" width="700" >	
 </p>
 
 ```javascript
@@ -96,7 +96,7 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 * Model 분리
 
 <p align="center">
-<img src="./images/2.JPG" width="500" >	
+<img src="./images/2.JPG" width="700" >	
 </p>
 
 자세한 내용은 [models.js](./codlab-nodejs/models.js)에 있습니다.
@@ -122,7 +122,7 @@ const User = sequelize.define('delivery_test', {
 * **랜덤**으로 QR코드 String으로 생성 후, 발신 및 수신 어플에서 QR코드 구현
 
 <p align="center">
-<img src="./images/3.JPG" width="500" >	
+<img src="./images/3.JPG" width="700" >	
 </p>
 
 ```javascript
@@ -161,7 +161,7 @@ for (var i = 0; i < 20; i++){
   2. 접수시간(mysql의 creatAt 데이터 활용)
   
 <p align="center">
-  <img src="./images/5.JPG" width="500" >	
+  <img src="./images/5.JPG" width="700" >	
 </p>
 
 * 수신완료 항목은 black, 배달완료 항목은 gray background 처리하여 구분
@@ -181,7 +181,7 @@ for (var i = 0; i < 20; i++){
 * 각 항목 클릭 시, **확대된 QR코드**와 **Sender Open/Close Time, Receiver Open/Close Time** 출력
 
 <p align="center">
-  <img src="./images/6.JPG" width="500" >	
+  <img src="./images/6.JPG" width="700" >	
 </p>
 
 ```javascript
@@ -255,7 +255,7 @@ Bitmap string_to_QRcode(String string_QR){
 * 아래의 항목을 입력하면 서버로 data 전송
 
 <p align="center">
-  <img src="./images/4.JPG" width="500" >	
+  <img src="./images/4.JPG" width="700" >	
 </p>
 
 ### 5. 하드웨어 제어 로직
@@ -263,8 +263,8 @@ Bitmap string_to_QRcode(String string_QR){
 자세한 내용은[](./)에 있습니다.
 
 <p align="center">
-  <img src="./images/7.JPG" width="500" >	
-  <img src="./images/8.JPG" width="500" >	
+  <img src="./images/7.JPG" width="700" >	
+  <img src="./images/8.JPG" width="700" >	
 </p>
 
 * Arduino
