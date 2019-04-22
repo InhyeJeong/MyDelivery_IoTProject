@@ -55,11 +55,6 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 
 ### 1. NodeJs를 활용하여 RestApi 서버 생성
 * 서버가 라즈베리파이, 스마트폰 어플과 통신
-
-<p align="center">
-<img src="./images/7.JPG" width="700" >	
-</p>
-
 * GET, POST, PUT, DELETE의 형식으로 **Controller** 구현
 
 자세한 내용은 [app.js](./codlab-nodejs/app.js)에 있습니다.
