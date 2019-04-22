@@ -91,7 +91,7 @@ NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, cu
 * Model 분리
 
 <p align="center">
-<img src="./images/2.JPG" width="700" >	
+<img src="./images/2.jpg" width="700" >	
 </p>
 
 자세한 내용은 [models.js](./codlab-nodejs/models.js)에 있습니다.
