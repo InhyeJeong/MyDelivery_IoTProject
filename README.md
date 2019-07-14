@@ -1,5 +1,5 @@
 # MyDelivery(IoT Project)
-- 이 프로젝트는 무인택배함을 수신자 및 배달기사가 **QR코드**로 인식하여 열고 닫히도록 되어있으며, 이를 통해 보안을 강화하는 프로젝트입니다.
+- 이 프로젝트는 무인택배함을 수신자 및 배달기사가 **QR코드**로 인식하여 열고 닫으며, 택배를 배달 및 수신 합니다. 이를 통해 보안을 강화하는 프로젝트입니다.
 - 19년 12월 ~ 19년 1월 15일
 
 ##  이 프로젝트의 **Tech Stack**
@@ -9,7 +9,7 @@
 </p>
 
 ```dart
-NodeJs, java, python, MySql, Android, Mocha, Supertest, express, body-parser, curl, Sequelize, date-utils
+java, javascript, python, MySql, Sequelize, Node.js, Android Studio, Mocha Test, Supertest, express, body-parser, curl, date-utils
 ```
 
 ## 문제제기 & 기획 주제
